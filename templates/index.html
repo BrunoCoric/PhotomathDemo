@@ -1,0 +1,33 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+    <title>Good Place Episode Recognizer</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+<body>
+<div style="color:green; font-size: 3em; text-align: center">Photomath Demo</div>
+      <form action="/predict" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <div class="frame">
+	<div class="center">
+		<div class="title">
+			<h1>Drop file to upload</h1>
+		</div>
+
+		<div class="dropzone">
+			<img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
+			<input type="file" class="upload-input" name="image" />
+		</div>
+
+		<button type="submit" class="btn" name="uploadbutton">Upload file</button>
+
+	</div>
+</div>
+        </div>
+
+
+
+      </form>
+</body>
+</html>
