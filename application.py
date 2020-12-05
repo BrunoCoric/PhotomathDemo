@@ -31,6 +31,6 @@ def predict():
             image = getExpression(image)
             tensor = transform_image(image)
             prediction,ocitano = get_prediction(tensor)
-            return render_template('rezultat.html', rez=prediction,ocitano = ocitano)
+            return render_template('rezultat.html',ocitano = ocitano)
         except:
             return jsonify({'error': 'error during prediction'})
