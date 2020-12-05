@@ -37,24 +37,20 @@ def getExpression(slike):
 
     thresh = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
-    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
 
-    dilated = cv2.dilate(thresh, kernel, iterations=5)
+    dilated = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 
     contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     coord = []
     for contour in contours:
         [x, y, w, h] = cv2.boundingRect(contour)
-        if h > 0.4 * image.shape[0] and w > 0.4 * image.shape[1]:
+        if h > 0.6 * image.shape[0] or w > 0.6 * image.shape[1]:
             continue
         if h < 0.05 * image.shape[0] and w < 0.05 * image.shape[1]:
             continue
-        if w > 0.15 * image.shape[1]:
-            coord.append((x, y, int(w / 2), h))
-            coord.append((x + int(w / 2), y, int(w / 2), h))
-        else:
-            coord.append((x, y, w, h))
+        coord.append((x, y, w, h))
 
     coord.sort(key=lambda tup: tup[0])
 
