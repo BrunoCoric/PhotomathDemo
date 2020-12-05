@@ -20,9 +20,17 @@ def predict():
     if request.method == 'POST':
         file = request.files.get('image')
         if file is None or file.filename == "":
-            return jsonify({'error': 'no file'})
+            file = request.files.get('camera')
+            if file in None or file.filename == "":
+                return jsonify({'error': 'no file'})
+            if not allowed_file(file.filename):
+                return jsonify({'error': 'format not supported'})
         if not allowed_file(file.filename):
-            return jsonify({'error': 'format not supported'})
+            file = request.files.get('camera')
+            if file in None or file.filename == "":
+                return jsonify({'error': 'no file'})
+            if not allowed_file(file.filename):
+                return jsonify({'error': 'format not supported'})
 
         try:
             img_bytes = file.read()

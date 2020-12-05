@@ -11,7 +11,7 @@ class Net(nn.Module):
         super(Net,self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=10, kernel_size=3)
         self.conv2 = nn.Conv2d(10, 20, kernel_size=3)
-        self.conv2_drop = nn.Dropout2d()
+        self.conv2_drop = nn.Dropout2d(0.25)
         self.fc1 = nn.Linear(1620, 512)
         self.fc2 = nn.Linear(512, 12)
 
@@ -26,7 +26,7 @@ class Net(nn.Module):
 
 device = torch.device('cpu')
 model = Net().to(device)
-model.load_state_dict(torch.load("photomath.pth",map_location=device))
+model.load_state_dict(torch.load("photomath5.pth",map_location=device))
 model.eval()
 
 def getExpression(slike):
@@ -35,7 +35,7 @@ def getExpression(slike):
     image = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    thresh = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
 
@@ -46,13 +46,17 @@ def getExpression(slike):
     coord = []
     for contour in contours:
         [x, y, w, h] = cv2.boundingRect(contour)
-        if h > 300 and w > 300:
+        if h > 0.4 * image.shape[0] and w > 0.4 * image.shape[1]:
             continue
-        if h < 50 or w < 50:
+        if h < 0.05 * image.shape[0] and w < 0.05 * image.shape[1]:
             continue
-        coord.append((x, y, w, h))
+        if w > 0.15 * image.shape[1]:
+            coord.append((x, y, int(w / 2), h))
+            coord.append((x + int(w / 2), y, int(w / 2), h))
+        else:
+            coord.append((x, y, w, h))
 
-    coord.sort(key=lambda tup: tup[0])  # if the image has only one sentence sort in one axis
+    coord.sort(key=lambda tup: tup[0])
 
     count = 0
     slike = []
@@ -66,7 +70,7 @@ def getExpression(slike):
 
 def transform_image(image_bytes):
     transform = transforms.Compose([transforms.Resize((45,45)),transforms.Grayscale(num_output_channels=1),
-                                    transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+                                    transforms.ToTensor(), transforms.Normalize((0.456,), (0.224,))])
     for im in range(0,len(image_bytes)):
         image_bytes[im] = transform(image_bytes[im]).unsqueeze_(0)
     return image_bytes
@@ -80,6 +84,7 @@ def get_prediction(slike):
     for slika in slike:
         slika = slika.to(device)
         outputs = model(slika)
+        print(outputs)
         rez = int(torch.argmax(outputs.data))
         if rez == 10:
             listaZnamenki.append('+')
