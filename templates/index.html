@@ -19,10 +19,6 @@
 			<img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
 			<input type="file" class="upload-input" name="image" />
 		</div>
-		<div class = "dropzone">
-			<i class="fa fa-camera upload-icon" style="font-size:36px"></i>
-			<input type="file" accept="image/*;capture=camera" class="upload-input" name="camera"/>
-		</div>
 		<button type="submit" class="btn" name="uploadbutton">Upload file</button>
 
 	</div>
@@ -32,5 +28,8 @@
 
 
       </form>
+{% if err %}
+<div style="margin-top: 20px; text-align: center;color: red">{{err}}</div>
+{% endif %}
 </body>
 </html>

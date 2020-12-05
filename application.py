@@ -20,17 +20,9 @@ def predict():
     if request.method == 'POST':
         file = request.files.get('image')
         if file is None or file.filename == "":
-            file = request.files.get('camera')
-            if file in None or file.filename == "":
-                return jsonify({'error': 'no file'})
-            if not allowed_file(file.filename):
-                return jsonify({'error': 'format not supported'})
+            return render_template('index.html',err= "Invalid file upload")
         if not allowed_file(file.filename):
-            file = request.files.get('camera')
-            if file in None or file.filename == "":
-                return jsonify({'error': 'no file'})
-            if not allowed_file(file.filename):
-                return jsonify({'error': 'format not supported'})
+            return render_template('index.html',err= "Format not supported")
 
         try:
             img_bytes = file.read()
@@ -41,4 +33,4 @@ def predict():
             prediction,ocitano = get_prediction(tensor)
             return render_template('rezultat.html', rez=prediction,ocitano = ocitano)
         except:
-            return jsonify({'error': 'error during prediction'})
+            return render_template('index.html',err= "Error during prediction")
