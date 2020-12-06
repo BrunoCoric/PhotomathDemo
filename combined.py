@@ -48,13 +48,18 @@ def getExpression(slike):
         [x, y, w, h] = cv2.boundingRect(contour)
         if h > 0.6 * image.shape[0] or w > 0.6 * image.shape[1]:
             continue
-        if h < 0.05 * image.shape[0] and w < 0.05 * image.shape[1]:
+        if h < 40 and w < 40:
             continue
         if w > h * 3:
             h = w
             y = int(y - h / 2)
         if h > w * 2:
-            w = int(w + 0.4 * w)
+            w = int(w + 0.3 * w)
+        if h < 65 and w < 65:
+            h = int(h * 2)
+            w = int(w * 1.5)
+            y = int(y - h / 4)
+            x = int(x - w * 0.25)
         coord.append((x, y, w, h))
 
     coord.sort(key=lambda tup: tup[0])
