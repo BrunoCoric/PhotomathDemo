@@ -28,10 +28,14 @@ def predict():
         try:
             img_bytes = file.read()
             image = io.BytesIO(img_bytes)
-            image = Image.open(image)
+            image = Image.open(image).convert('RGB')
             if rot == "leftRotation":
+                size = max(image.size)
+                image = image.resize((size, size))
                 image = image.rotate(-90)
             elif rot == "rightRotation":
+                size = max(image.size)
+                image = image.resize((size, size))
                 image = image.rotate(90)
             image = getExpression(image)
             tensor = transform_image(image)

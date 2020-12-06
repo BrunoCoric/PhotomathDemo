@@ -50,6 +50,11 @@ def getExpression(slike):
             continue
         if h < 0.05 * image.shape[0] and w < 0.05 * image.shape[1]:
             continue
+        if w > h * 3:
+            h = w
+            y = int(y - h / 2)
+        if h > w * 2:
+            w = int(w + 0.4 * w)
         coord.append((x, y, w, h))
 
     coord.sort(key=lambda tup: tup[0])
