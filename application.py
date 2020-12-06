@@ -19,7 +19,7 @@ def render_page():
 def predict():
     if request.method == 'POST':
         file = request.files.get('image')
-        rot = request.files.get('rotation').value
+        rot = request.form['rotation']
         if file is None or file.filename == "":
             return render_template('index.html',err= "Invalid file upload")
         if not allowed_file(file.filename):
