@@ -5,4 +5,4 @@ If you upload an image that is rotated, you must select is it right or left rota
 There isn't any mechanism to control whether a recognized character really is a digit or + or -.
 Example of an input:
 
-<img src="example.jpeg"/>
+<img src="example.jpeg" />
