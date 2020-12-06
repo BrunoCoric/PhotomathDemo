@@ -30,9 +30,9 @@ def predict():
             image = io.BytesIO(img_bytes)
             image = Image.open(image)
             if rot == "leftRotation":
-                image = image.rotate(90)
-            elif rot == "rightRotation":
                 image = image.rotate(-90)
+            elif rot == "rightRotation":
+                image = image.rotate(90)
             image = getExpression(image)
             tensor = transform_image(image)
             prediction,ocitano = get_prediction(tensor)
