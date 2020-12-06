@@ -19,6 +19,7 @@ def render_page():
 def predict():
     if request.method == 'POST':
         file = request.files.get('image')
+        rot = request.files.get('rotation').value
         if file is None or file.filename == "":
             return render_template('index.html',err= "Invalid file upload")
         if not allowed_file(file.filename):
@@ -28,6 +29,10 @@ def predict():
             img_bytes = file.read()
             image = io.BytesIO(img_bytes)
             image = Image.open(image)
+            if rot == "leftRotation":
+                image = image.rotate(90)
+            elif rot == "rightRotation":
+                image = image.rotate(-90)
             image = getExpression(image)
             tensor = transform_image(image)
             prediction,ocitano = get_prediction(tensor)

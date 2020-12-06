@@ -19,6 +19,14 @@
 			<img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
 			<input type="file" class="upload-input" name="image" />
 		</div>
+		<div>
+		 <input type="radio" name="rotation" id="noRotation" value="noRotation" checked>
+		<label for="noRotation">No rotation</label><br>
+		<input type="radio" id="leftRotation" name="rotation" value="leftRotation">
+		<label for="leftRotation">Left rotation</label><br>
+		<input type="radio" id="rightRotation" name="rotation" value="rightRotation">
+		<label for="rightRotation">Right rotation</label>
+		</div>
 		<button type="submit" class="btn" name="uploadbutton">Upload file</button>
 
 	</div>
@@ -31,5 +39,7 @@
 {% if err %}
 <div style="margin-top: 20px; text-align: center;color: red">{{err}}</div>
 {% endif %}
+
+<div>Choose the rotation of the taken image for the correct prediction</div>
 </body>
 </html>
