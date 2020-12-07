@@ -6,3 +6,6 @@ There isn't any mechanism to control whether a recognized character really is a 
 Example of an input:
 
 <img src="example.jpeg" />
+
+
+Model trained on a kaggle dataset: https://www.kaggle.com/xainano/handwrittenmathsymbols
