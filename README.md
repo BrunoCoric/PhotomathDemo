@@ -1,5 +1,5 @@
 # PhotomathDemo
-photomath-demo.herokuapp.com/
+<a href="photomath-demo.herokuapp.com/">Web aplikacija</a>
 
 A very simple web applications that recognizes handwritten digits and operators + and -.
 Right now it can only work properly on images with vertical characters.
